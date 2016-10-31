@@ -18,13 +18,13 @@
     stt = status -uno
     difff = diff --word-diff
 [merge]
-	ff = false
+    ff = false
 [pull]
-	ff = only
+    ff = only
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+    clean = git-lfs clean %f
+    smudge = git-lfs smudge %f
+    required = true
 [core]
-	whitespace = cr-at-eol
-	pager = less -x4
+    whitespace = cr-at-eol
+    pager = less -x4
