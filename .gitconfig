@@ -1,0 +1,30 @@
+[user]
+    name = yanutetsu
+    email = satoshi.yanuma@topgate.co.jp
+[alias]
+    st = status
+    sh = show
+    ft = fetch
+    ci = commit
+    co = checkout
+    br = branch
+    ba = branch -a
+    bm = branch --merged    # merge済みのbranchを表示
+    bn = branch --no-merged # mergeしていないbranchを表示
+    graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cgreen%d %Creset%s'
+    graphall = log --all --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cgreen%d %Creset%s'
+    st = status
+    cm = commit
+    stt = status -uno
+    difff = diff --word-diff
+[merge]
+	ff = false
+[pull]
+	ff = only
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[core]
+	whitespace = cr-at-eol
+	pager = less -x4
