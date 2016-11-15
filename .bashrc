@@ -29,7 +29,7 @@ eval "$(pyenv init -)"
 
 # EPARK環境設定
 # export PATH=~/procjects/epark/serverapp:$PATH
-export GOROOT=/usr/local/opt/go/libexec
+# export GOROOT=/usr/local/opt/go/libexec
 export GOPATH=$HOME/.go
 export PATH=~/go_appengine:$GOPATH/bin:$PATH
 
