@@ -325,7 +325,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
 (define-key company-active-map (kbd "M-d") 'company-show-doc-buffer)
-(setq company-idle-delay 0)
+(setq company-idle-delay 0.2)
 (setq company-minimum-prefix-length 1)
 (setq company-selection-wrap-around t)
 
