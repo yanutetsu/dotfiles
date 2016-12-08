@@ -685,15 +685,15 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 
 
-;; ;; ;; Emacs Lisp
-;; ;; (add-hook 'emacs-lisp-mode-hook
-;; ;;           '(lambda()
-;; ;;              (rainbow-delimiters-mode)))
+;; ;; Emacs Lisp
+;; (add-hook 'emacs-lisp-mode-hook
+;;           '(lambda()
+;;              (rainbow-delimiters-mode)))
 
-;; ;; ;; Common Lisp
-;; ;; (add-hook 'lisp-mode-hook
-;; ;;           '(lambda()
-;; ;;              (rainbow-delimiters-mode)))
+;; ;; Common Lisp
+;; (add-hook 'lisp-mode-hook
+;;           '(lambda()
+;;              (rainbow-delimiters-mode)))
 
 (smart-newline-mode 1)
 
