@@ -551,6 +551,9 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; ng2-mode
 ;;------------------------------------------------------------------------------
 (require 'ng2-mode)
+(add-hook 'ng2-html-mode-hook
+          '(lambda ()
+             (define-key global-map (kbd "C-c e") 'emmet-expand-yas)))
 
 ;;------------------------------------------------------------------------------
 ;; nginx-mode
@@ -624,7 +627,10 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 ;; format options
-(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+(setq tide-format-options
+      '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
+        :placeOpenBraceOnNewLineForFunctions nil
+        :tab-size 2))
 
 
 ;;------------------------------------------------------------------------------
@@ -662,7 +668,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;;------------------------------------------------------------------------------
 (require 'yasnippet)
 (yas-global-mode 1)
-;; (setq yas-snippet-dirs "~/.emacs.d/elpa/yasnippet-20160517.1628/snippets")
+(setq yas-snippet-dirs "~/.emacs.d/snippets")
 (setq yas-prompt-functions
       '(yas/dropdown-prompt yas/ido-prompt yas/completing-prompt))
 
