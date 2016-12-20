@@ -88,6 +88,13 @@
 ;; バッファを自動で更新する
 (global-auto-revert-mode 1)
 
+;; diredを2つのウィンドウで開いている時に、デフォルトの移動orコピー先をもう一方のdiredで開いているディレクトリにする
+(setq dired-dwim-target t)
+;; ディレクトリを再帰的にコピーする
+(setq dired-recursive-copies 'always)
+;; diredバッファでC-sした時にファイル名だけにマッチさせる
+(setq dired-isearch-filenames t)
+
 ;; 現在行をハイライト
 ;; (global-hl-line-mode t)
 ;; (custom-set-faces
