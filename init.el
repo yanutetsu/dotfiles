@@ -747,7 +747,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
         (define-key global-map (kbd "C-x _") 'helm-google-suggest)
         (define-key global-map (kbd "C-c g") 'helm-git-grep)
         (define-key global-map (kbd "C-c C-g") 'helm-git-grep-at-point)
-        (define-key global-map (kbd "s-p") 'helm-buffers-list))
+        (define-key global-map (kbd "s-p") 'helm-buffers-list)
+        (define-key global-map (kbd "C-c z") 'emmet-expand-yas))
     (progn
         (define-key global-map (kbd "M-x") 'execute-extended-command)
         (define-key global-map (kbd "M-y") 'yank-pop)
@@ -765,9 +766,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (define-key global-map (kbd "C-/") 'undo)
 (define-key global-map (kbd "C-M-/") 'redo)
 (define-key global-map (kbd "M-/") 'redo)
-
-;; ;; zencoding
-;; (define-key global-map (kbd "C-c z") 'zencoding-expand-yas)
 
 ;; expand-region
 (global-set-key (kbd "C-@") 'er/expand-region)
