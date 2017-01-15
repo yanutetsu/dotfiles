@@ -548,6 +548,60 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (require 'typescript-mode)
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
+;; ng2-modeからコピー
+(defun ng2--is-component (name)
+  (equal (file-name-extension (file-name-sans-extension name)) "component"))
+
+(defun ng2--is-service (name)
+  (equal (file-name-extension (file-name-sans-extension name)) "service"))
+
+(defun ng2--is-pipe (name)
+  (equal (file-name-extension (file-name-sans-extension name)) "pipe"))
+
+(defun ng2--is-file (name)
+  (cond ((ng2--is-component name) t)
+        ((ng2--is-service name) t)
+        ((ng2--is-pipe name) t)))
+
+(defun ng2--counterpart-name (name)
+  "Return the file name of this file's counterpart. If a file has no counterpart, returns the name of the file. Ex. kek.component.html <-> kek.component.ts"
+  (when (not (ng2--is-component name)) name)
+  (let ((ext (file-name-extension name))
+        (base (file-name-sans-extension name)))
+    (if (equal ext "ts")
+        (concat base ".html")
+      (concat base ".ts"))))
+
+(defun ng2-open-counterpart ()
+  "Opens the counterpart file to this one. If it's a component, open the corresponding template, and vice versa"
+  (interactive)
+  (find-file (ng2--counterpart-name (buffer-file-name))))
+
+
+(defun ng2--counterpart-spec-name (name)
+  (when (not (ng2--is-file name)) name)
+  (let ((ext (file-name-extension name))
+        (base (file-name-sans-extension name)))
+    (if (equal ext "ts")
+        (let ((ext2 (file-name-extension base))
+              (base2 (file-name-sans-extension base)))
+          (if (equal ext2 "spec")
+              (concat base2 ".ts")
+            (concat base ".spec.ts")))
+      (concat base ".ts"))))
+
+(defun ng2-open-counterpart-spec ()
+  (interactive)
+  (find-file (ng2--counterpart-spec-name (buffer-file-name))))
+
+
+(add-hook 'typescript-mode-hook
+          '(lambda ()
+             (define-key typescript-mode-map (kbd "C-c c") 'ng2-open-counterpart)
+             (define-key typescript-mode-map (kbd "C-c C-c") 'ng2-open-counterpart-spec)
+             (font-lock-add-keywords nil ng2-ts-font-lock-keywords)))
+
+
 ;;------------------------------------------------------------------------------
 ;; tide (typescript)
 ;;------------------------------------------------------------------------------
