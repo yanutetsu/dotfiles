@@ -109,6 +109,9 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 (set-exec-path-from-shell-PATH)
 
+(add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
+(add-to-list 'exec-path (expand-file-name "/Users/syanuma/.go/bin"))
+
 ;;------------------------------------------------------------------------------
 ;; C-aでインデントを飛ばした行頭に移動
 ;;------------------------------------------------------------------------------
@@ -205,8 +208,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
     (set-fontset-font nil
                       'japanese-jisx0208
                       (font-spec :family
-                                 "Ricty Diminished"))
-    ))
+                                 "Ricty Diminished"))))
 
 ;; mouse
 (unless window-system
@@ -218,10 +220,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (global-set-key [mouse-5] '(lambda ()
                                (interactive)
                                (scroll-up 1))))
-(defun scroll-down-with-lines ()
-  "" (interactive) (scroll-down 3))
-(defun scroll-up-with-lines ()
-  "" (interactive) (scroll-up 3))
+(defun scroll-down-with-lines () (interactive) (scroll-down 3))
+(defun scroll-up-with-lines () (interactive) (scroll-up 3))
 (global-set-key [wheel-up] 'scroll-down-with-lines)
 (global-set-key [wheel-down] 'scroll-up-with-lines)
 (global-set-key [double-wheel-up] 'scroll-down-with-lines)
@@ -373,22 +373,22 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;;------------------------------------------------------------------------------
 ;; go-mode
 ;;------------------------------------------------------------------------------
-;; (require 'go-mode)
-;; (require 'go-autocomplete)
-;; (require 'go-eldoc)
-;; (setenv "GOROOT" "/usr/local/opt/go/libexec")
-;; (setenv "GOPATH" (concat (getenv "HOME") "/.go"))
-;; (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-;; (add-hook 'go-mode-hook
-;;           '(lambda ()
-;;              (setq gofmt-command "goimports")
-;;              (add-hook 'before-save-hook 'gofmt-before-save)
-;;              (set (make-local-variable 'compile-command)
-;;                   "go build -v && go test -v && go vet")
-;;              (define-key go-mode-map (kbd "M-.") 'godef-jump)
-;;              (define-key go-mode-map (kbd "M-,") 'pop-tag-mark)
-;;              (go-eldoc-setup)
-;;              (smart-newline-mode 1)))
+(require 'go-mode)
+(require 'go-autocomplete)
+(require 'go-eldoc)
+(setenv "GOROOT" "/usr/local/opt/go/libexec")
+(setenv "GOPATH" (concat (getenv "HOME") "/.go"))
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+(add-hook 'go-mode-hook
+          '(lambda ()
+             (setq gofmt-command "goimports")
+             (add-hook 'before-save-hook 'gofmt-before-save)
+             (set (make-local-variable 'compile-command)
+                  "go build -v && go test -v && go vet")
+             (define-key go-mode-map (kbd "M-.") 'godef-jump)
+             (define-key go-mode-map (kbd "M-,") 'pop-tag-mark)
+             (go-eldoc-setup)
+             (smart-newline-mode 1)))
 
 
 ;;------------------------------------------------------------------------------
