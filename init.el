@@ -51,8 +51,6 @@
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name))) ; フルパス
 
 ;; 行番号表示
-;; 行番号にも色がついてしまうから使わない
-;; (global-linum-mode t)
 (global-linum-mode (if (display-graphic-p)
                        t
                      nil))
@@ -70,10 +68,6 @@
 ;; 行末の空白を強調表示
 (setq-default show-trailing-whitespace t)
 (set-face-background 'trailing-whitespace "#b14770")
-
-;; ;; highlight-chars.el
-;; (require 'highlight-chars)
-;; (hc-toggle-highlight-tabs 1)
 
 (setq comment-style 'multi-line)
 
@@ -95,11 +89,6 @@
 ;; diredバッファでC-sした時にファイル名だけにマッチさせる
 (setq dired-isearch-filenames t)
 
-;; 現在行をハイライト
-;; (global-hl-line-mode t)
-;; (custom-set-faces
-;;  '(hl-line ((t (:background "dark-gray")))))
-
 ;; ;; grep-edit
 ;; (require 'grep-edit)
 
@@ -119,13 +108,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
     (setq exec-path (split-string path-from-shell path-separator))))
 
 (set-exec-path-from-shell-PATH)
-
-;; ;; When opened from Desktop entry, PATH won't be set to shell's value.
-;; (let ((path-str
-;;        (replace-regexp-in-string
-;;         "\n+$" "" (shell-command-to-string "echo $PATH"))))
-;;   (setenv "PATH" path-str)
-;;   (setq exec-path (nconc (split-string path-str ":") exec-path)))
 
 ;;------------------------------------------------------------------------------
 ;; C-aでインデントを飛ばした行頭に移動
@@ -224,8 +206,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
                       'japanese-jisx0208
                       (font-spec :family
                                  "Ricty Diminished"))
-    ;; (setq face-font-rescale-alist
-    ;;       '((".*Hiragino_Kaku_Gothic_ProN.*" . 1.2)))
     ))
 
 ;; mouse
@@ -303,19 +283,10 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-to-list 'ac-modes 'text-mode)
 (add-to-list 'ac-modes 'fundamental-mode)
 (ac-set-trigger-key "TAB")
-;; (setq ac-disable-faces t)
 (setq ac-use-menu-map t)
 (setq ac-use-fuzzy t)
 (setq ac-delay 0.1)
 (setq ac-menu-show-map 0.2)
-;; (global-auto-complete-mode t)
-
-;; ;;------------------------------------------------------------------------------
-;; ;; auto-java-complete
-;; ;;------------------------------------------------------------------------------
-;; (add-to-list 'load-path "~/.emacs.d/site-lisp/auto-java-complete")
-;; (require 'ajc-java-complete-config)
-;; (add-hook 'java-mode-hook 'ajc-java-complete-mode)
 
 ;;------------------------------------------------------------------------------
 ;; anzu
@@ -336,30 +307,9 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (setq company-minimum-prefix-length 1)
 (setq company-selection-wrap-around t)
 
+(company-quickhelp-mode +1)
 
-;; ;;------------------------------------------------------------------------------
-;; ;; edit-server for Chrome extention
-;; ;;------------------------------------------------------------------------------
-;; (require 'edit-server)
-;; (edit-server-start)
-;; (setq edit-server-new-frame nil)        ; 新しいフレーム
-
-
-;; ↓なんかイマイチ動かない
-;; ;;------------------------------------------------------------------------------
-;; ;; flymake
-;; ;;------------------------------------------------------------------------------
-;; ;; (eval-after-load "go-mode"
-;; ;;   '(require 'flymake-go))
-
-;; ;;------------------------------------------------------------------------------
-;; ;; go-flymake
-;; ;;------------------------------------------------------------------------------
-;; (setenv "GOPATH" "/Users/syanuma/.go")
-;; ;; (setenv "PATH" (concat (getenv "PATH") ":" "/extra/path/element"))
-;; ;; (setq exec-path (append exec-path (list (expand-file-name "/another/thing"))))
-;; (add-to-list 'load-path "~/.go/src/github.com/dougm/goflaymake")
-;; (require 'go-flycheck)
+(setq company-transformers '(company-sort-by-backend-importance))
 
 ;;------------------------------------------------------------------------------
 ;; editorconfig
@@ -376,12 +326,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; expand-region
 ;;------------------------------------------------------------------------------
 (require 'expand-region)
-;; キーバインドはこのファイルの最後で設定する
-;; (global-set-key (kbd "C-@") 'er/expand-region)
-;; (global-set-key (kbd "C-M-@") 'er/contract-region)
-
-;; transient-mark-modeがnilでは動作しないらしい
-;; (transient-mark-mode t)
 
 ;;------------------------------------------------------------------------------
 ;; flycheck
@@ -392,15 +336,14 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
              (append flycheck-disabled-checkers
                      '(javascript-jshint)))
 
-;; (setq flycheck-eslintrc "~/.emacs.d/.eslintrc") ; copy ~/bacchus/bacchus/.eslint
-;; (add-to-list 'load-path "~/.go/src/github.com/dougm/goflymake")
-;; (require 'go-flycheck)
-
 ;;------------------------------------------------------------------------------
 ;; flycheck-pos-tip
 ;;------------------------------------------------------------------------------
-(with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode))
+;; (with-eval-after-load 'flycheck
+;;   (flycheck-pos-tip-mode))
+;; (eval-after-load 'flycheck
+;;   '(custom-set-variables
+;;     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
 
 ;;------------------------------------------------------------------------------
@@ -542,25 +485,19 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; multiple-cursors
 ;;------------------------------------------------------------------------------
 (require 'multiple-cursors)
-;; キーバインドはこのファイルの最後で設定する
-;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-;; (global-set-key (kbd "C-M->") 'mc/skip-to-next-like-this)
-;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;;------------------------------------------------------------------------------
 ;; neotree
 ;;------------------------------------------------------------------------------
-;; (add-to-list 'load-path "/directory/containing/neotree/")
 (require 'neotree)
 
 ;;------------------------------------------------------------------------------
 ;; ng2-mode
 ;;------------------------------------------------------------------------------
 (require 'ng2-mode)
-(add-hook 'ng2-html-mode-hook
-          '(lambda ()
-             (define-key global-map (kbd "C-c e") 'emmet-expand-yas)))
+(defun ng2-html-mode-hook-func ()
+  (define-key global-map (kbd "C-c z") 'emmet-expand-yas))
+(add-hook 'ng2-html-mode-hook 'ng2-html-mode-hook-func)
 
 ;;------------------------------------------------------------------------------
 ;; nginx-mode
@@ -659,7 +596,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-hook 'web-mode-hook
           '(lambda()
              (auto-complete-mode)
-             ;; (company-mode +1)
+             (company-mode +1)
              (smartparens-mode -1)
              (web-mode-offsets)))
 
@@ -692,15 +629,15 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 
 
-;; ;; Emacs Lisp
-;; (add-hook 'emacs-lisp-mode-hook
-;;           '(lambda()
-;;              (rainbow-delimiters-mode)))
+;; Emacs Lisp
+(add-hook 'emacs-lisp-mode-hook
+          '(lambda()
+             (rainbow-delimiters-mode)))
 
-;; ;; Common Lisp
-;; (add-hook 'lisp-mode-hook
-;;           '(lambda()
-;;              (rainbow-delimiters-mode)))
+;; Common Lisp
+(add-hook 'lisp-mode-hook
+          '(lambda()
+             (rainbow-delimiters-mode)))
 
 (smart-newline-mode 1)
 
