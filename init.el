@@ -274,21 +274,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;;------------------------------------------------------------------------------
 
 ;;------------------------------------------------------------------------------
-;; auto-complete
-;;------------------------------------------------------------------------------
-(require 'auto-complete)
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
-(add-to-list 'ac-modes 'text-mode)
-(add-to-list 'ac-modes 'fundamental-mode)
-(ac-set-trigger-key "TAB")
-(setq ac-use-menu-map t)
-(setq ac-use-fuzzy t)
-(setq ac-delay 0.1)
-(setq ac-menu-show-map 0.2)
-
-;;------------------------------------------------------------------------------
 ;; anzu
 ;;------------------------------------------------------------------------------
 (global-anzu-mode +1)
@@ -310,6 +295,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (company-quickhelp-mode +1)
 
 (setq company-transformers '(company-sort-by-backend-importance))
+
+(global-company-mode +1)
 
 ;;------------------------------------------------------------------------------
 ;; editorconfig
@@ -381,6 +368,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 (add-hook 'go-mode-hook
           '(lambda ()
+             (company-mode +1)
              (setq gofmt-command "goimports")
              (add-hook 'before-save-hook 'gofmt-before-save)
              (set (make-local-variable 'compile-command)
@@ -649,7 +637,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 (add-hook 'web-mode-hook
           '(lambda()
-             (auto-complete-mode)
              (company-mode +1)
              (smartparens-mode -1)
              (web-mode-offsets)))
@@ -677,7 +664,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-hook 'html-mode-hook
           '(lambda()
              (setq indent-tabs-mode nil)
-             ;; (auto-complete-mode)
              (company-mode +1)
              ))
 
