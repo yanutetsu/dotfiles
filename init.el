@@ -759,6 +759,10 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
+;; MacOSのdefaultの動作に近づける（タブじゃない）
+(define-key global-map (kbd "s-{") 'windmove-left)
+(define-key global-map (kbd "s-}") 'windmove-right)
+
 ;;------------------------------------------------------------------------------
 ;; color-theme
 ;;------------------------------------------------------------------------------
