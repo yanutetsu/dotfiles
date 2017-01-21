@@ -586,7 +586,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
           '(lambda ()
              (define-key typescript-mode-map (kbd "C-c c") 'ng2-open-counterpart)
              (define-key typescript-mode-map (kbd "C-c C-c") 'ng2-open-counterpart-spec)
-             (font-lock-add-keywords nil ng2-ts-font-lock-keywords)))
+             (font-lock-add-keywords nil ng2-ts-font-lock-keywords)
+             (define-key typescript-mode-map (kbd "C-c i") 'company-yasnippet)))
 
 
 ;;------------------------------------------------------------------------------
