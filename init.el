@@ -552,16 +552,15 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
         ((ng2--is-pipe name) t)))
 
 (defun ng2--counterpart-name (name)
-  "Return the file name of this file's counterpart. If a file has no counterpart, returns the name of the file. Ex. kek.component.html <-> kek.component.ts"
-  (when (not (ng2--is-component name)) name)
-  (let ((ext (file-name-extension name))
-        (base (file-name-sans-extension name)))
-    (if (equal ext "ts")
-        (concat base ".html")
-      (concat base ".ts"))))
+  (if (ng2--is-component name)
+      (let ((ext (file-name-extension name))
+            (base (file-name-sans-extension name)))
+        (if (equal ext "ts")
+            (concat base ".html")
+          (concat base ".ts")))
+    name))
 
 (defun ng2-open-counterpart ()
-  "Opens the counterpart file to this one. If it's a component, open the corresponding template, and vice versa"
   (interactive)
   (find-file (ng2--counterpart-name (buffer-file-name))))
 
