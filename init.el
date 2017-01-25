@@ -291,6 +291,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (setq company-idle-delay 0.2)
 (setq company-minimum-prefix-length 1)
 (setq company-selection-wrap-around t)
+(defvar company-dabbrev-downcase nil)
 
 (company-quickhelp-mode +1)
 
