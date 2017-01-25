@@ -399,6 +399,43 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;;------------------------------------------------------------------------------
 (require 'helm)
 (require 'helm-fuzzy-find)
+;; ;; (global-set-key (kbd "C-s") 'helm-swoop)
+;; (global-set-key (kbd "M-x") 'helm-M-x)
+;; (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; (global-set-key (kbd "C-x b") 'helm-buffers-list)
+;; (global-set-key (kbd "C-x f") 'helm-recentf)
+;; (global-set-key (kbd "C-x _") 'helm-google-suggest)
+;; (global-set-key (kbd "C-c j") 'helm-git-grep)
+;; (global-set-key (kbd "C-c C-j") 'helm-git-grep-at-point)
+;; (global-set-key (kbd "s-p") 'helm-buffers-list)
+
+
+;;------------------------------------------------------------------------------
+;; ivy
+;;------------------------------------------------------------------------------
+(ivy-mode +1)
+(defvar ivy-use-virtual-buffers t)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "M-y") 'counsel-yank-pop)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "s-p") 'ivy-switch-buffer)
+(global-set-key (kbd "C-x f") 'counsel-recentf)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c j") 'counsel-git-grep)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+(global-set-key (kbd "<f6>") 'ivy-resume)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+
 
 ;;------------------------------------------------------------------------------
 ;; js2-mode
@@ -697,48 +734,19 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (define-key global-map (kbd "M-?") 'help-for-help)
 (define-key global-map (kbd "C-o") 'ace-jump-mode)
 (define-key global-map (kbd "M-C-g") 'grep)
-(define-key global-map (kbd "C-x l") 'goto-line)
-;; (define-key global-map (kbd "C-x l") 'linum-mode)
+;; (define-key global-map (kbd "C-x l") 'goto-line)
 (define-key global-map (kbd "C-x C-l") 'toggle-truncate-lines)
 (define-key global-map (kbd "C-i") 'indent-for-tab-command) ;yasnippetをよぶと上書きされるため
 (define-key global-map (kbd "M-q") 'keyboard-quit)
 (define-key global-map (kbd "C-j") 'indent-new-comment-line)
 (define-key global-map (kbd "C-m") 'newline-and-indent)
+(define-key global-map (kbd "C-c z") 'emmet-expand-yas)
 
 ;; magit
 (if window-system
     (define-key global-map (kbd "C-x m") 'magit-status)
   (define-key global-map (kbd "M-m") 'magit-status))
 (define-key global-map (kbd "C-c C-b") 'magit-blame)
-
-;; helm
-(defvar *helm-key-binding* t)
-(defun switch-helm-key-binding ()
-  (interactive)
-  (if *helm-key-binding*
-      (progn
-        (define-key global-map (kbd "M-x") 'helm-M-x)
-        (define-key global-map (kbd "M-y") 'helm-show-kill-ring)
-        (define-key global-map (kbd "C-x C-f") 'helm-find-files)
-        (define-key global-map (kbd "C-x b") 'helm-buffers-list)
-        (define-key global-map (kbd "C-x f") 'helm-recentf)
-        (define-key global-map (kbd "C-x _") 'helm-google-suggest)
-        (define-key global-map (kbd "C-c g") 'helm-git-grep)
-        (define-key global-map (kbd "C-c C-g") 'helm-git-grep-at-point)
-        (define-key global-map (kbd "s-p") 'helm-buffers-list)
-        (define-key global-map (kbd "C-c z") 'emmet-expand-yas))
-    (progn
-        (define-key global-map (kbd "M-x") 'execute-extended-command)
-        (define-key global-map (kbd "M-y") 'yank-pop)
-        (define-key global-map (kbd "C-x C-f") 'find-file)
-        (define-key global-map (kbd "C-x b") 'switch-to-buffer)
-        (define-key global-map (kbd "C-x f") 'set-fill-column)
-        (define-key global-map (kbd "C-x _") nil))))
-(defun toggle-helm-key-binding ()
-  (interactive)
-  (setq *helm-key-binding* (not *helm-key-binding*))
-  (switch-helm-key-binding))
-(switch-helm-key-binding)
 
 ;; redo+
 (define-key global-map (kbd "C-/") 'undo)
