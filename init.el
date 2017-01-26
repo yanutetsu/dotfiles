@@ -584,10 +584,14 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (defun ng2--is-pipe (name)
   (equal (file-name-extension (file-name-sans-extension name)) "pipe"))
 
+(defun ng2--is-directive (name)
+  (equal (file-name-extension (file-name-sans-extension name)) "directive"))
+
 (defun ng2--is-file (name)
   (cond ((ng2--is-component name) t)
         ((ng2--is-service name) t)
-        ((ng2--is-pipe name) t)))
+        ((ng2--is-pipe name) t)
+        ((ng2--is-directive name) t)))
 
 (defun ng2--counterpart-name (name)
   (if (ng2--is-component name)
