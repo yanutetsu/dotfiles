@@ -740,6 +740,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (define-key global-map (kbd "M-q") 'keyboard-quit)
 (define-key global-map (kbd "C-j") 'indent-new-comment-line)
 (define-key global-map (kbd "C-m") 'newline-and-indent)
+(define-key global-map (kbd "M-;") 'comment-dwim-2)
 (define-key global-map (kbd "C-c z") 'emmet-expand-yas)
 
 ;; magit
