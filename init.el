@@ -416,7 +416,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;;------------------------------------------------------------------------------
 (ivy-mode +1)
 (defvar ivy-use-virtual-buffers t)
-(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "C-M-s") 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
