@@ -669,21 +669,12 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.\\(html\\|jsx\\|erb\\)\\'" . web-mode))
 
-(defun web-mode-offsets ()
-  (defvar web-mode-html-offset   2)
-  (defvar web-mode-css-offset    2)
-  (defvar web-mode-script-offset 2)
-  (defvar web-mode-php-offset    2)
-  (defvar web-mode-java-offset   2)
-  (defvar web-mode-asp-offset    2)
-  (setq indent-tabs-mode t)
-  (setq tab-width 2))
-
-(add-hook 'web-mode-hook
-          '(lambda()
-             (company-mode +1)
-             (smartparens-mode -1)
-             (web-mode-offsets)))
+(defun web-mode-hook-func ()
+  (defvar web-mode-markup-indent-offset 2)
+  (company-mode +1)
+  (smartparens-mode -1)
+  (web-mode-offsets))
+(add-hook 'web-mode-hook 'web-mode-hook-func)
 
 ;;------------------------------------------------------------------------------
 ;; yaml-mode
