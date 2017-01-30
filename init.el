@@ -1,5 +1,7 @@
 ;;; init.el --- my settings
 
+(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+
 ;;; Code:
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -83,11 +85,11 @@
 (global-auto-revert-mode 1)
 
 ;; diredを2つのウィンドウで開いている時に、デフォルトの移動orコピー先をもう一方のdiredで開いているディレクトリにする
-(setq dired-dwim-target t)
+(defvar dired-dwim-target t)
 ;; ディレクトリを再帰的にコピーする
-(setq dired-recursive-copies 'always)
+(defvar dired-recursive-copies 'always)
 ;; diredバッファでC-sした時にファイル名だけにマッチさせる
-(setq dired-isearch-filenames t)
+(defvar dired-isearch-filenames t)
 
 ;; ;; grep-edit
 ;; (require 'grep-edit)
@@ -655,7 +657,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 ;; format options
-(setq tide-format-options
+(defvar tide-format-options
       '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
         :placeOpenBraceOnNewLineForFunctions nil
         :tab-size 2))
