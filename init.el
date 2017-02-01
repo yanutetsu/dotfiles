@@ -364,10 +364,12 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; go-mode
 ;;------------------------------------------------------------------------------
 (require 'go-mode)
-(require 'go-autocomplete)
+(require 'company-go)
 (require 'go-eldoc)
-(setenv "GOROOT" "/usr/local/opt/go/libexec")
+;; (setenv "GOROOT" "/usr/local/opt/go/libexec")
 (setenv "GOPATH" (concat (getenv "HOME") "/.go"))
+(add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
+(add-to-list 'exec-path (expand-file-name "/usr/local/.go/bin"))
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 (add-hook 'go-mode-hook
           '(lambda ()
@@ -376,6 +378,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
              (add-hook 'before-save-hook 'gofmt-before-save)
              (set (make-local-variable 'compile-command)
                   "go build -v && go test -v && go vet")
+             (set (make-local-variable 'company-backends) '(company-go))
              (define-key go-mode-map (kbd "M-.") 'godef-jump)
              (define-key go-mode-map (kbd "M-,") 'pop-tag-mark)
              (go-eldoc-setup)
