@@ -673,7 +673,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-to-list 'auto-mode-alist '("\\.\\(html\\|jsx\\|erb\\)\\'" . web-mode))
 
 (defun web-mode-hook-func ()
-  (defvar web-mode-markup-indent-offset 2)
+  (setq web-mode-markup-indent-offset 2)
   (company-mode +1)
   (smartparens-mode -1)
   (web-mode-offsets))
