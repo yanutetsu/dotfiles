@@ -297,7 +297,9 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 (company-quickhelp-mode +1)
 
-(setq company-transformers '(company-sort-by-backend-importance))
+(require 'company-statistics)
+(company-statistics-mode)
+(setq company-transformers '(company-sort-by-statistics company-sort-by-backend-importance))
 
 (global-company-mode +1)
 
