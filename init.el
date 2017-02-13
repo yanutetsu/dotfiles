@@ -783,6 +783,10 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; (load-theme 'wonbat t)
 ;; (load-theme 'misterioso t)
 
+;; smart-mode-line
+(defvar sml/theme 'dark)
+(sml/setup)
+
 ;; カーソルの色
 (set-cursor-color "green")
 
