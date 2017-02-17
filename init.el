@@ -409,11 +409,11 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; ;; (global-set-key (kbd "C-s") 'helm-swoop)
 ;; (global-set-key (kbd "M-x") 'helm-M-x)
 ;; (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-c f") 'helm-find-files)
 ;; (global-set-key (kbd "C-x b") 'helm-buffers-list)
 ;; (global-set-key (kbd "C-x f") 'helm-recentf)
 ;; (global-set-key (kbd "C-x _") 'helm-google-suggest)
-;; (global-set-key (kbd "C-c j") 'helm-git-grep)
+(global-set-key (kbd "C-c C-j") 'helm-git-grep)
 ;; (global-set-key (kbd "C-c C-j") 'helm-git-grep-at-point)
 ;; (global-set-key (kbd "s-p") 'helm-buffers-list)
 
