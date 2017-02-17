@@ -28,3 +28,5 @@
 [core]
     whitespace = cr-at-eol
     pager = less -x4
+[diff]
+	compactionHeuristic = true
