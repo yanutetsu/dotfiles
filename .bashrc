@@ -8,7 +8,7 @@ export HISTFILESIZE=100000
 export HISTCONTROL=ignorespace:erasedups
 
 export LESS='-R'
-export LESSOPEN='| /usr/local/Cellar/source-highlight/3.1.8_1/bin/src-hilite-lesspipe.sh %s'
+export LESSOPEN='| /usr/local/Cellar/source-highlight/3.1.8_2/bin/src-hilite-lesspipe.sh %s'
 
 alias ls="ls -FG"
 alias la="ls -a"
