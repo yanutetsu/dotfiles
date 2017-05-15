@@ -10,6 +10,8 @@ export HISTCONTROL=ignorespace:erasedups
 export LESS='-R'
 export LESSOPEN='| /usr/local/Cellar/source-highlight/3.1.8_2/bin/src-hilite-lesspipe.sh %s'
 
+alias vi="vim"
+
 alias ls="ls -FG"
 alias la="ls -a"
 alias ll="ls -l"
