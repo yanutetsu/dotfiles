@@ -1,5 +1,8 @@
 ;;; init.el --- my settings
 
+;; Emacs25系の日本語入力のちらつきを改善する
+(setq redisplay-dont-pause nil)
+
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
 ;;; Code:
