@@ -7,7 +7,8 @@
 
 ;;; Code:
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 ;; (package-refresh-contents)
 
@@ -28,7 +29,7 @@
 (setq backup-inhibited t)
 
 ;; ツールバーをなんとかする
-(tool-bar-mode 0)
+;; (tool-bar-mode 0)
 (if window-system
     (tool-bar-mode -1)
   (menu-bar-mode -1))
@@ -82,7 +83,7 @@
 (setq ns-pop-up-frames nil)
 
 ;; クリップボードを使う
-(setq x-select-enable-clipboard t)
+(setq select-enable-clipboard t)
 
 ;; バッファを自動で更新する
 (global-auto-revert-mode 1)
@@ -93,6 +94,9 @@
 (defvar dired-recursive-copies 'always)
 ;; diredバッファでC-sした時にファイル名だけにマッチさせる
 (defvar dired-isearch-filenames t)
+
+;; ビープ音を消す
+(setq ring-bell-function 'ignore)
 
 ;; ;; grep-edit
 ;; (require 'grep-edit)
@@ -192,10 +196,11 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("0fb6369323495c40b31820ec59167ac4c40773c3b952c264dd8651a3b704f6b5"
-     "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6"
-     default)))
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "0fb6369323495c40b31820ec59167ac4c40773c3b952c264dd8651a3b704f6b5" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(magit-diff-options nil)
+ '(package-selected-packages
+   (quote
+    (company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame migemo markdown-mode magit lorem-ipsum less-css-mode js2-mode ivy-hydra helm-themes helm-swoop helm-git-grep helm-fuzzy-find helm-emmet helm-descbinds helm-company google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -214,6 +219,13 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
                       'japanese-jisx0208
                       (font-spec :family
                                  "Ricty Diminished"))))
+    ;; (set-face-attribute 'default nil
+    ;;                     :family "Source Code Pro for Powerline"
+    ;;                     :height 120)
+    ;; (set-fontset-font nil
+    ;;                   'japanese-jisx0208
+    ;;                   (font-spec :family
+    ;;                              "Source Code Pro for Powerline"))))
 
 ;; mouse
 (unless window-system
@@ -371,7 +383,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (require 'go-mode)
 (require 'company-go)
 (require 'go-eldoc)
-;; (setenv "GOROOT" "/usr/local/opt/go/libexec")
+;; (setenv "GOROOT" "/Users/syanuma/projects/jtb-agent-account-system/server")
 (setenv "GOPATH" (concat (getenv "HOME") "/.go"))
 (add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
 (add-to-list 'exec-path (expand-file-name "/usr/local/.go/bin"))
@@ -531,8 +543,16 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; ng2-mode
 ;;------------------------------------------------------------------------------
 (require 'ng2-mode)
+(defun ng2-ts-mode-hook-func ()
+  '(lambda ()
+     (setq tab-width 2)
+     (define-key ng2-ts-mode-map (kbd "C-c C-c" 'ng2-open-counterpart-spec))))
+(add-hook 'ng2-ts-mode-hook 'ng2-ts-mode-hook-func)
+
 (defun ng2-html-mode-hook-func ()
-  (define-key global-map (kbd "C-c z") 'emmet-expand-yas))
+  '(lambda ()
+     (setq tab-width 2)
+     (define-key ng2-html-mode-map (kbd "C-c z") 'emmet-expand-yas)))
 (add-hook 'ng2-html-mode-hook 'ng2-html-mode-hook-func)
 
 ;;------------------------------------------------------------------------------
@@ -670,6 +690,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
         :placeOpenBraceOnNewLineForFunctions nil
         :tab-size 2))
 
+;; TODO tsserverを各プロジェクトごとに読み込む方法を調べる
+;; (defvar tide-tsserver-executable "/Users/syanuma/projects/jtb-agent-account-system/client/node_modules/typescript/bin/tsserver")
 
 ;;------------------------------------------------------------------------------
 ;; undo-tree-mode
