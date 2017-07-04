@@ -29,11 +29,16 @@ export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
 
+# Go
+export GOPATH=$HOME/.go
+export PATH=~/go_appengine:$GOPATH/bin:$PATH
+
+# JTB環境設定
+export PATH=~/projects/jtb-agent-account-system/server:$PATH
+
 # EPARK環境設定
 # export PATH=~/procjects/epark/serverapp:$PATH
 # export GOROOT=/usr/local/opt/go/libexec
-export GOPATH=$HOME/.go
-export PATH=~/go_appengine:$GOPATH/bin:$PATH
 
 export PATH=~/google-cloud-sdk/bin:$PATH
 
