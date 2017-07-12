@@ -200,7 +200,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  '(magit-diff-options nil)
  '(package-selected-packages
    (quote
-    (company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame migemo markdown-mode magit lorem-ipsum less-css-mode js2-mode ivy-hydra helm-themes helm-swoop helm-git-grep helm-fuzzy-find helm-emmet helm-descbinds helm-company google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
+    (go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame migemo markdown-mode magit lorem-ipsum less-css-mode js2-mode ivy-hydra helm-themes helm-swoop helm-git-grep helm-fuzzy-find helm-emmet helm-descbinds helm-company google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -338,10 +338,15 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; flycheck
 ;;------------------------------------------------------------------------------
 (require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 (setq-default flycheck-disabled-checkers
              (append flycheck-disabled-checkers
                      '(javascript-jshint)))
+
+;; ;; ng2-modeへのflycheckの適用
+;; (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
+;; (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
+
 
 ;;------------------------------------------------------------------------------
 ;; flycheck-pos-tip
@@ -597,66 +602,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; ng2-mode
 ;;------------------------------------------------------------------------------
 (require 'ng2-mode)
-(defun ng2-ts-mode-hook-func ()
-  '(lambda ()
-     (setq tab-width 2)
-     (define-key ng2-ts-mode-map (kbd "C-c C-c" 'ng2-open-counterpart-spec))))
-(add-hook 'ng2-ts-mode-hook 'ng2-ts-mode-hook-func)
-
-(defun ng2-html-mode-hook-func ()
-  '(lambda ()
-     (setq tab-width 2)
-     (define-key ng2-html-mode-map (kbd "C-c z") 'emmet-expand-yas)))
-(add-hook 'ng2-html-mode-hook 'ng2-html-mode-hook-func)
-
-;;------------------------------------------------------------------------------
-;; nginx-mode
-;;------------------------------------------------------------------------------
-(require 'nginx-mode)
-(add-to-list 'auto-mode-alist '("nginx.conf" . nginx-mode))
-(add-hook 'nginx-mode-hook
-          '(lambda ()
-             (setq nginx-indent-level 4)))
-
-;;------------------------------------------------------------------------------
-;; recentf-ext
-;;------------------------------------------------------------------------------
-(require 'recentf-ext)
-(setq recentf-max-saved-items 500)
-(defvar recentf-exculde '("/TAGS$" "/var/tmp/"))
-
-;;------------------------------------------------------------------------------
-;; reqdo+.el
-;;------------------------------------------------------------------------------
-(require 'redo+)
-(setq undo-no-redo t)
-(setq undo-limit 60000)
-(setq undo-strong-limit 900000)
-
-;;------------------------------------------------------------------------------
-;; smart-newline
-;;------------------------------------------------------------------------------
-(require 'smart-newline)
-
-;;------------------------------------------------------------------------------
-;; smartparens
-;;------------------------------------------------------------------------------
-(require 'smartparens)
-(require 'smartparens-config)
-(smartparens-global-mode t)
-;; smartparens.elの中でハイライトを消す設定をしている
-
-;;------------------------------------------------------------------------------
-;; sql-mode
-;;------------------------------------------------------------------------------
-;; mysqlのキーワードにハイライトを当てる
-(add-hook 'sql-mode-hook 'sql-highlight-mysql-keywords)
-
-;;------------------------------------------------------------------------------
-;; typescript-mode
-;;------------------------------------------------------------------------------
-(require 'typescript-mode)
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
 ;; ng2-modeからコピー
 (defun ng2--is-component (name)
@@ -708,6 +653,59 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (find-file (ng2--counterpart-spec-name (buffer-file-name))))
 
 
+(define-key ng2-ts-mode-map (kbd "C-c C-c") 'ng2-open-counterpart-spec)
+(define-key ng2-html-mode-map (kbd "C-c z") 'emmet-expand-yas)
+
+
+;;------------------------------------------------------------------------------
+;; nginx-mode
+;;------------------------------------------------------------------------------
+(require 'nginx-mode)
+(add-to-list 'auto-mode-alist '("nginx.conf" . nginx-mode))
+(add-hook 'nginx-mode-hook
+          '(lambda ()
+             (setq nginx-indent-level 4)))
+
+;;------------------------------------------------------------------------------
+;; recentf-ext
+;;------------------------------------------------------------------------------
+(require 'recentf-ext)
+(setq recentf-max-saved-items 500)
+(defvar recentf-exculde '("/TAGS$" "/var/tmp/"))
+
+;;------------------------------------------------------------------------------
+;; reqdo+.el
+;;------------------------------------------------------------------------------
+(require 'redo+)
+(setq undo-no-redo t)
+(setq undo-limit 60000)
+(setq undo-strong-limit 900000)
+
+;;------------------------------------------------------------------------------
+;; smart-newline
+;;------------------------------------------------------------------------------
+(require 'smart-newline)
+
+;;------------------------------------------------------------------------------
+;; smartparens
+;;------------------------------------------------------------------------------
+(require 'smartparens)
+(require 'smartparens-config)
+(smartparens-global-mode t)
+;; smartparens.elの中でハイライトを消す設定をしている
+
+;;------------------------------------------------------------------------------
+;; sql-mode
+;;------------------------------------------------------------------------------
+;; mysqlのキーワードにハイライトを当てる
+(add-hook 'sql-mode-hook 'sql-highlight-mysql-keywords)
+
+;;------------------------------------------------------------------------------
+;; typescript-mode
+;;------------------------------------------------------------------------------
+(require 'typescript-mode)
+;; (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+
 (add-hook 'typescript-mode-hook
           '(lambda ()
              (define-key typescript-mode-map (kbd "C-c c") 'ng2-open-counterpart)
@@ -732,17 +730,23 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (setq company-tooltip-align-annotations t)
 
 ;; formats the buffer before saving
-;; (add-hook 'before-save-hook 'tide-format-before-save)
-;; 引数の改行を深くインデントしてくれないので、hookを外す
+(add-hook 'before-save-hook 'tide-format-before-save)
+
 (define-key typescript-mode-map (kbd "C-c C-f") 'tide-format)
+(define-key ng2-ts-mode-map (kbd "C-c C-f") 'tide-format)
+(define-key ng2-ts-mode-map (kbd "C-c C-c") 'ng2-open-counterpart-spec)
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
+(add-hook 'ng2-ts-mode-hook #'setup-tide-mode)
 
 ;; format options
 (defvar tide-format-options
       '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
         :placeOpenBraceOnNewLineForFunctions nil
-        :tab-size 2))
+        :tabSize 2
+        :indentSize 2
+        :indentStyle 2
+        :convertTabsToSpaces t))
 
 ;; TODO tsserverを各プロジェクトごとに読み込む方法を調べる
 ;; (defvar tide-tsserver-executable "/Users/syanuma/projects/jtb-agent-account-system/client/node_modules/typescript/bin/tsserver")
@@ -810,8 +814,9 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 
 ;; 優先
+;; ng2-mode
 (add-to-list 'auto-mode-alist '("\\.component.html\\'" . ng2-mode))
-;; (add-to-list 'auto-mode-alist '("\\.ts\\'" . ng2-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . ng2-mode))
 
 ;;------------------------------------------------------------------------------
 ;; key bind
