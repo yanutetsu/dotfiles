@@ -388,18 +388,72 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
 (add-to-list 'exec-path (expand-file-name "/usr/local/.go/bin"))
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-(add-hook 'go-mode-hook
-          '(lambda ()
-             (company-mode +1)
-             (setq gofmt-command "goimports")
-             (add-hook 'before-save-hook 'gofmt-before-save)
-             (set (make-local-variable 'compile-command)
-                  "go build -v && go test -v && go vet")
-             (set (make-local-variable 'company-backends) '(company-go))
-             (define-key go-mode-map (kbd "M-.") 'godef-jump)
-             (define-key go-mode-map (kbd "M-,") 'pop-tag-mark)
-             (go-eldoc-setup)
-             (smart-newline-mode 1)))
+(defun my-go-mode-hook ()
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go generate && go install -v && go test -v && go vet"))
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (go-eldoc-setup)
+  (setq gofmt-command "goimports")
+  (smart-newline-mode 1))
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+;; (add-hook 'go-mode-hook
+;;           '(lambda ()
+;;              (define-key go-mode-map (kbd "M-.") 'godef-jump)
+;;              (define-key go-mode-map (kbd "M-,") 'pop-tag-mark)
+;;              (set (make-local-variable 'company-backends) '(company-go))
+;;              (go-eldoc-setup)
+;;              (smart-newline-mode 1)
+;;              (setq gofmt-command "goimports")
+;;              (if (not (string-match "go" compile-command))
+;;                  (set (make-local-variable 'compile-command)
+;;                       "go generate && go install -v && go test -v && go vet"))
+;;              ;; (set (make-local-variable 'compile-command)
+;;              ;;      "go build -v && go test -v && go vet")
+;;              ))
+(set-face-attribute 'eldoc-highlight-function-argument nil
+                    :underline t
+                    :foreground "green"
+                    :weight 'bold)
+
+
+(defun file-name-sans-extension-underbar (filename)
+  (save-match-data
+    (let ((file (file-name-sans-versions (file-name-nondirectory filename)))
+	  directory)
+      (if (and (string-match "_[^._]*\\'" file)
+	       (not (eq 0 (match-beginning 0))))
+	  (if (setq directory (file-name-directory filename))
+	      (concat directory (substring file 0 (match-beginning 0)))
+	    (substring file 0 (match-beginning 0)))
+	filename))))
+
+(defun file-name-extension-underbar (filename &optional period)
+  (save-match-data
+    (let ((file (file-name-sans-versions (file-name-nondirectory filename))))
+      (if (and (string-match "_[^._]*\\'" file)
+	       (not (eq 0 (match-beginning 0))))
+          (substring file (+ (match-beginning 0) (if period 0 1)))
+        (if period
+            "")))))
+
+(defun go--counterpart-name (name)
+  (let ((ext (file-name-extension name))
+        (base (file-name-sans-extension name)))
+    (if (equal ext "go")
+        (let ((ext2 (file-name-extension-underbar base))
+              (base2 (file-name-sans-extension-underbar base)))
+          (if (equal ext2 "test")
+              (concat base2 ".go")
+            (concat base "_test.go")))
+      (concat base ".go"))))
+
+(defun go-open-testfile ()
+  (interactive)
+  (find-file (go--counterpart-name (buffer-file-name))))
+
+(define-key go-mode-map (kbd "C-c C-c") 'go-open-testfile)
 
 
 ;;------------------------------------------------------------------------------
