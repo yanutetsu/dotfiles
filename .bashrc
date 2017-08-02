@@ -30,8 +30,10 @@ export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
 
 # Go
+export GOROOT=`go env GOROOT`
 export GOPATH=$HOME/.go
-export PATH=~/go_appengine:$GOPATH/bin:$PATH
+export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+# export PATH=~/go_appengine:$PAATH # コレなんだっけ？
 
 # JTB環境設定
 export PATH=~/projects/jtb-agent-account-system/server:$PATH
