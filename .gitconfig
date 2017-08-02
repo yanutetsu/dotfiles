@@ -13,7 +13,6 @@
     bn = branch --no-merged # mergeしていないbranchを表示
     graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%ad %Cblue%an %Cgreen%d %Creset%s'
     graphall = log --all --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%ad %Cblue%an %Cgreen%d %Creset%s'
-    st = status
     cm = commit
     stt = status -uno
     difff = diff --word-diff
