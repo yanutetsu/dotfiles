@@ -5,7 +5,7 @@
 # 履歴
 export HISTISZE=100000
 export HISTFILESIZE=100000
-export HISTCONTROL=ignorespace:erasedups
+export HISTCONTROL=ignoredups:ignorespace:erasedups
 
 export LESS='-R'
 export LESSOPEN='| /usr/local/Cellar/source-highlight/3.1.8_2/bin/src-hilite-lesspipe.sh %s'
@@ -18,9 +18,13 @@ alias ll="ls -l"
 alias lal="ls -la"
 alias lla="ls -la"
 
+alias g="git"
 alias gg="git graph"
 alias ggg="git graphall"
 alias gs="git status"
+
+alias t="tig"
+alias ta="tig --all"
 
 source ~/.git-completion.bash
 
@@ -32,8 +36,9 @@ eval "$(pyenv init -)"
 # Go
 export GOROOT=`go env GOROOT`
 export GOPATH=$HOME/.go
+export GOPATH=$HOME/projects/jtb-agent-account-system/server/src:$GOPATH # for prj-jtb
 export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
-# export PATH=~/go_appengine:$PAATH # コレなんだっけ？
+export PATH=~/go_appengine:$PATH # コレなんだっけ？ ←これないとgbコマンドがまともに動かない
 
 # JTB環境設定
 export PATH=~/projects/jtb-agent-account-system/server:$PATH
@@ -78,3 +83,13 @@ promps
 
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# # share bash history
+# function share_history {
+#     history -a
+#     history -c
+#     history -r
+# }
+# PROMPT_COMMAND='share_history'
+# shopt -u histappend
+# export HISTSIZE=9999
