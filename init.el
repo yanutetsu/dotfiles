@@ -343,8 +343,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
              (append flycheck-disabled-checkers
                      '(javascript-jshint)))
 
-;; ;; ng2-modeへのflycheckの適用
-;; (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
+;; ng2-modeへのflycheckの適用
+(flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
 ;; (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
 
 
@@ -388,40 +388,12 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (require 'go-mode)
 (require 'company-go)
 (require 'go-eldoc)
-;; (setenv "GOROOT" "/Users/syanuma/projects/jtb-agent-account-system/server")
-(setenv "GOPATH" (concat (getenv "HOME") "/.go"))
+;; (setenv "GOPATH" (concat (getenv "HOME") "/.go"))
+(setenv "GOROOT" (concat (getenv "HOME") "/.go"))
+(setenv "GOPATH" (concat (getenv "HOME") "/projects/jtb-agent-account-system/server")) ; for jtb
 (add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
 (add-to-list 'exec-path (expand-file-name "/usr/local/.go/bin"))
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-(defun my-go-mode-hook ()
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (if (not (string-match "go" compile-command))
-      (set (make-local-variable 'compile-command)
-           "go generate && go install -v && go test -v && go vet"))
-  (local-set-key (kbd "M-.") 'godef-jump)
-  (go-eldoc-setup)
-  (setq gofmt-command "goimports")
-  (smart-newline-mode 1))
-(add-hook 'go-mode-hook 'my-go-mode-hook)
-;; (add-hook 'go-mode-hook
-;;           '(lambda ()
-;;              (define-key go-mode-map (kbd "M-.") 'godef-jump)
-;;              (define-key go-mode-map (kbd "M-,") 'pop-tag-mark)
-;;              (set (make-local-variable 'company-backends) '(company-go))
-;;              (go-eldoc-setup)
-;;              (smart-newline-mode 1)
-;;              (setq gofmt-command "goimports")
-;;              (if (not (string-match "go" compile-command))
-;;                  (set (make-local-variable 'compile-command)
-;;                       "go generate && go install -v && go test -v && go vet"))
-;;              ;; (set (make-local-variable 'compile-command)
-;;              ;;      "go build -v && go test -v && go vet")
-;;              ))
-(set-face-attribute 'eldoc-highlight-function-argument nil
-                    :underline t
-                    :foreground "green"
-                    :weight 'bold)
-
 
 (defun file-name-sans-extension-underbar (filename)
   (save-match-data
@@ -458,7 +430,24 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (interactive)
   (find-file (go--counterpart-name (buffer-file-name))))
 
-(define-key go-mode-map (kbd "C-c C-c") 'go-open-testfile)
+(defun my-go-mode-hook ()
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go generate && go install -v && go test -v && go vet"))
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-,") 'pop-tag-mark)
+  (local-set-key (kbd "C-c C-c") 'go-open-testfile)
+  (go-eldoc-setup)
+  (setq gofmt-command "goimports")
+  (smart-newline-mode 1))
+
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
+(set-face-attribute 'eldoc-highlight-function-argument nil
+                    :underline t
+                    :foreground "green"
+                    :weight 'bold)
 
 
 ;;------------------------------------------------------------------------------
@@ -652,10 +641,25 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (interactive)
   (find-file (ng2--counterpart-spec-name (buffer-file-name))))
 
+(defun set-up-ng2-ts-mode ()
+  (interactive)
+  (local-set-key (kbd "C-c C-f") 'tide-format)
+  (local-set-key (kbd "C-c C-c") 'ng2-open-counterpart-spec)
+  (eldoc-mode +1)
+  (company-mode +1)
+  (smart-newline-mode +1)
+  ;; tide
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 
-(define-key ng2-ts-mode-map (kbd "C-c C-c") 'ng2-open-counterpart-spec)
-(define-key ng2-html-mode-map (kbd "C-c z") 'emmet-expand-yas)
+(add-hook 'ng2-ts-mode-hook #'set-up-ng2-ts-mode)
 
+(defun set-up-ng2-html-mode ()
+  (interactive)
+  (local-set-key (kbd "C-c z") 'emmet-expand-yas))
+
+(add-hook 'ng2-html-mode-hook #'ste-up-ng2-html-mode)
 
 ;;------------------------------------------------------------------------------
 ;; nginx-mode
@@ -733,11 +737,9 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-hook 'before-save-hook 'tide-format-before-save)
 
 (define-key typescript-mode-map (kbd "C-c C-f") 'tide-format)
-(define-key ng2-ts-mode-map (kbd "C-c C-f") 'tide-format)
-(define-key ng2-ts-mode-map (kbd "C-c C-c") 'ng2-open-counterpart-spec)
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
-(add-hook 'ng2-ts-mode-hook #'setup-tide-mode)
+;; (add-hook 'ng2-ts-mode-hook #'setup-tide-mode)
 
 ;; format options
 (defvar tide-format-options
