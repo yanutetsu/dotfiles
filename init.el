@@ -200,7 +200,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  '(magit-diff-options nil)
  '(package-selected-packages
    (quote
-    (go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame migemo markdown-mode magit lorem-ipsum less-css-mode js2-mode ivy-hydra helm-themes helm-swoop helm-git-grep helm-fuzzy-find helm-emmet helm-descbinds helm-company google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
+    (twittering-mode markdown-toc go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame migemo markdown-mode magit lorem-ipsum less-css-mode js2-mode ivy-hydra google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -347,7 +347,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
 ;; (flycheck-add-mode 'typescript-tide 'ng2-ts-mode)
 
-
 ;;------------------------------------------------------------------------------
 ;; flycheck-pos-tip
 ;;------------------------------------------------------------------------------
@@ -465,23 +464,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
       '(("en" . "ja") ("ja" . "en")))
 
 ;;------------------------------------------------------------------------------
-;; helm
-;;------------------------------------------------------------------------------
-(require 'helm)
-(require 'helm-fuzzy-find)
-;; ;; (global-set-key (kbd "C-s") 'helm-swoop)
-;; (global-set-key (kbd "M-x") 'helm-M-x)
-;; (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-c f") 'helm-find-files)
-;; (global-set-key (kbd "C-x b") 'helm-buffers-list)
-;; (global-set-key (kbd "C-x f") 'helm-recentf)
-;; (global-set-key (kbd "C-x _") 'helm-google-suggest)
-(global-set-key (kbd "C-c C-j") 'helm-git-grep)
-;; (global-set-key (kbd "C-c C-j") 'helm-git-grep-at-point)
-;; (global-set-key (kbd "s-p") 'helm-buffers-list)
-
-
-;;------------------------------------------------------------------------------
 ;; ivy
 ;;------------------------------------------------------------------------------
 (ivy-mode +1)
@@ -505,7 +487,11 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-
+(setq ivy-re-builders-alist
+      '((read-file-name-internal . ivy--regex-fuzzy)
+        (t . ivy--regex-plus)))
+(setq magit-completing-read-function 'ivy-completing-read)
+(setq projectile-completion-system 'ivy)
 
 ;;------------------------------------------------------------------------------
 ;; js2-mode
