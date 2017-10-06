@@ -387,9 +387,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (require 'go-mode)
 (require 'company-go)
 (require 'go-eldoc)
-;; (setenv "GOPATH" (concat (getenv "HOME") "/.go"))
-(setenv "GOROOT" (concat (getenv "HOME") "/.go"))
-(setenv "GOPATH" (concat (getenv "HOME") "/projects/jtb-agent-account-system/server")) ; for jtb
+(setenv "GOPATH" (concat (getenv "HOME") "/go"))
+;; (setenv "GOPATH" (concat (getenv "HOME") "/projects/jtb-agent-account-system/server")) ; for jtb
 (add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
 (add-to-list 'exec-path (expand-file-name "/usr/local/.go/bin"))
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
