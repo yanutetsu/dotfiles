@@ -214,7 +214,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (progn
     (set-face-attribute 'default nil
                         :family "Ricty Diminished"
-                        :height 140)
+                        :height 130)
     (set-fontset-font nil
                       'japanese-jisx0208
                       (font-spec :family
