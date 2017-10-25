@@ -121,44 +121,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
 (add-to-list 'exec-path (expand-file-name "/Users/syanuma/.go/bin"))
 
-;;------------------------------------------------------------------------------
-;; C-aでインデントを飛ばした行頭に移動
-;;------------------------------------------------------------------------------
-(defun beginning-of-indented-line (current-point)
-  (interactive "d")
-  (if (string-match "^[ \t]+$"
-                    (save-excursion
-                      (buffer-substring-no-properties
-                       (progn
-                         (beginning-of-line)
-                         (point))
-                       current-point)))
-      (begging-of-line)
-    (back-to-indentation)))
-
-(defun beginning-of-visual-indented-line (current-point)
-  (interactive "d")
-  (let ((vhead-pos (save-excursion (progn
-                                     (beginning-of-visual-line)
-                                     (point))))
-        (head-pos (save-excursion (progn
-                                    (beginning-of-line)
-                                    (point)))))
-    (cond
-     ((eq vhead-pos head-pos)
-      (if (string-match "^[ \t]+$"
-                        (buffer-substring-no-properties vhead-pos current-point))
-          (beginning-of-visual-line)
-        (back-to-indentation)))
-     ((eq vhead-pos current-point)
-      (backward-char)
-      (beginning-of-visual-indented-line (point)))
-     (t
-      (beginning-of-visual-line)))))
-
-(global-set-key "\C-a" 'beginning-of-visual-indented-line)
-(global-set-key "\C-e" 'end-of-visual-line)
-
 ;; emacsclient
 ;; シェルから現在のEmacsにアクセスする
 ;; (server-start)
