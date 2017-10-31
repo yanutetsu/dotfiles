@@ -441,7 +441,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (global-set-key (kbd "C-c g") 'counsel-git)
 (global-set-key (kbd "C-c j") 'counsel-git-grep)
 (global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
+;; (global-set-key (kbd "C-x l") 'counsel-locate)
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (global-set-key (kbd "<f6>") 'ivy-resume)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
@@ -776,7 +776,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (define-key global-map (kbd "M-?") 'help-for-help)
 (define-key global-map (kbd "C-o") 'ace-jump-mode)
 (define-key global-map (kbd "M-C-g") 'grep)
-;; (define-key global-map (kbd "C-x l") 'goto-line)
+(define-key global-map (kbd "C-x l") 'goto-line)
 (define-key global-map (kbd "C-x C-l") 'toggle-truncate-lines)
 (define-key global-map (kbd "C-i") 'indent-for-tab-command) ;yasnippetをよぶと上書きされるため
 (define-key global-map (kbd "M-q") 'keyboard-quit)
