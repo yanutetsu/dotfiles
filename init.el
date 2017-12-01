@@ -398,6 +398,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (local-set-key (kbd "M-.") 'godef-jump)
   (local-set-key (kbd "M-,") 'pop-tag-mark)
   (local-set-key (kbd "C-c C-c") 'go-open-testfile)
+  (local-set-key (kbd "C-c C-l") 'go-direx-switch-to-buffer)
   (go-eldoc-setup)
   (setq gofmt-command "goimports")
   (smart-newline-mode 1)
