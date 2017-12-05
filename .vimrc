@@ -18,6 +18,7 @@ set smartcase
 set browsedir=buffer
 set clipboard=unnamed
 set history=1000
+set cot-=preview
 
 " statusline
 set statusline=%F
