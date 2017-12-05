@@ -48,6 +48,8 @@ imap <C-g> <Esc>
 
 imap <C-f> <RIGHT>
 imap <C-b> <LEFT>
+imap <C-a> <HOME>
+imap <C-e> <END>
 
 """""""""""""""""""""""""
 " Plug
