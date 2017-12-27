@@ -162,7 +162,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  '(magit-diff-options nil)
  '(package-selected-packages
    (quote
-    (go-mode twittering-mode markdown-toc go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame migemo markdown-mode magit lorem-ipsum less-css-mode js2-mode ivy-hydra google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
+    (flycheck-gometalinter go-mode twittering-mode markdown-toc go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame migemo markdown-mode magit lorem-ipsum less-css-mode js2-mode ivy-hydra google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -172,15 +172,13 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  )
 
 ;; font
-(when window-system
-  (progn
-    (set-face-attribute 'default nil
-                        :family "Ricty Diminished"
-                        :height 130)
-    (set-fontset-font nil
-                      'japanese-jisx0208
-                      (font-spec :family
-                                 "Ricty Diminished"))))
+(set-face-attribute 'default nil
+                    :family "Ricty"
+                    :height 130)
+(set-fontset-font nil
+                  'japanese-jisx0208
+                  (font-spec :family
+                             "Ricty"))
     ;; (set-face-attribute 'default nil
     ;;                     :family "Source Code Pro for Powerline"
     ;;                     :height 120)
@@ -267,9 +265,11 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
 (define-key company-active-map (kbd "M-d") 'company-show-doc-buffer)
-(setq company-idle-delay 0.1)
-(setq company-minimum-prefix-length 1)
+(setq company-idle-delay .3)
+(setq company-minimum-prefix-length 2)
 (setq company-selection-wrap-around t)
+(setq company-echo-delay 0)
+(setq company-begin-commands '(self-insert-command))
 (defvar company-dabbrev-downcase nil)
 
 (company-quickhelp-mode +1)
@@ -304,6 +304,18 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (setq-default flycheck-disabled-checkers
              (append flycheck-disabled-checkers
                      '(javascript-jshint)))
+
+(require 'flycheck-gometalinter)
+(eval-after-load 'flycheck
+  '(add-hook 'flyckec-mode-hook #'flycheck-gometalinter-setup))
+(setq flycheck-gometalinter-vendor t)
+;; (setq flycheck-gometalinter-errors-only t)
+(setq flycheck-gometalinter-fast t)
+(setq flycheck-gometalinter-tests t)
+(setq flycheck-gometalinter-disable-linters '("gotype" "gocyclo"))
+(setq flycheck-gometalinter-disable-all t)
+(setq flycheck-gometalinter-enable-linters '("golint"))
+(setq flycheck-gometalinter-deadline "10s")
 
 ;; ng2-modeへのflycheckの適用
 (flycheck-add-mode 'typescript-tslint 'ng2-ts-mode)
@@ -403,7 +415,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (setq gofmt-command "goimports")
   (smart-newline-mode 1)
   (set (make-local-variable 'company-backends)
-       '((company-dabbrev-code company-yasnippet))))
+       '((company-go company-dabbrev-code company-yasnippet))))
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
