@@ -34,9 +34,7 @@ export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
 
 # Go
-export GOROOT=`go env GOROOT`
-export GOPATH=$HOME/go
-# export GOPATH=$HOME/projects/jtb-agent-account-system/server/src:$GOPATH # for prj-jtb
+export GOPATH=/Users/syanuma/go
 export PATH=$GOPATH/bin:$PATH
 export PATH=~/go_appengine:$PATH # コレなんだっけ？ ←これないとgbコマンドがまともに動かない
 
