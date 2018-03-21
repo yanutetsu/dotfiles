@@ -3,7 +3,7 @@
 ;; Emacs25系の日本語入力のちらつきを改善する
 (setq redisplay-dont-pause nil)
 
-(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+;; (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
 ;;; Code:
 (require 'package)
@@ -59,7 +59,7 @@
 ;; 行番号表示
 (global-linum-mode (if (display-graphic-p)
                        t
-                     nil))
+                     -1))
 
 ;; 行番号フォーマット
 (defvar linum-format
@@ -101,25 +101,9 @@
 ;; ;; grep-edit
 ;; (require 'grep-edit)
 
-;; POファイルに関する設定
-(load "start-po" t)
-(defvar po-auto-update-file-header nil)      ; PO-Revision-Dateが無いためヘッダーは更新しない
-
-;; pathの引き継ぎ
-(defun set-exec-path-from-shell-PATH ()
-  "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
-This is particularly useful under Mac OSX, where GUI apps are not started from a shell."
-  (interactive)
-  (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$"
-                                                   ""
-                                                   (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
-
-(set-exec-path-from-shell-PATH)
-
-(add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
-(add-to-list 'exec-path (expand-file-name "/Users/syanuma/.go/bin"))
+;; ;; POファイルに関する設定
+;; (load "start-po" t)
+;; (defvar po-auto-update-file-header nil)      ; PO-Revision-Dateが無いためヘッダーは更新しない
 
 ;; emacsclient
 ;; シェルから現在のEmacsにアクセスする
@@ -127,30 +111,6 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 ;; (setq server-socket-dir (format "/private/tmp/emacs%d" (user-uid)))
 
-;; dictionary
-(defun dictionary ()
-  "dictionary.app"
-  (interactive)
-  (let ((editable (not buffer-read-only))
-        (pt (save-excursion (mouse-set-point last-nonmenu-event)))
-        beg end)
-    (if (and mark-active
-             (<= (region-beginning) pt)
-             (<= pt (region-end)))
-        (setq beg (region-beginning)
-              end (region-end))
-      (save-excursion
-        (goto-char pt)
-        (setq end (progn
-                    (forward-word)
-                    (point)))
-        (setq beg (progn
-                    (backward-word)
-                    (point)))))
-    (browse-url
-     (concat "dict:///"
-             (url-hexify-string (buffer-substring-no-properties beg end))))))
-(define-key global-map (kbd "C-c d") 'dictionary)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -158,11 +118,11 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "0fb6369323495c40b31820ec59167ac4c40773c3b952c264dd8651a3b704f6b5" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(magit-diff-options nil)
  '(package-selected-packages
    (quote
-    (flycheck-gometalinter go-mode twittering-mode markdown-toc go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame migemo markdown-mode magit lorem-ipsum less-css-mode js2-mode ivy-hydra google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
+    (magit go-guru exec-path-from-shell flycheck-gometalinter twittering-mode markdown-toc go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame markdown-mode lorem-ipsum less-css-mode js2-mode ivy-hydra google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -171,40 +131,23 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
  ;; If there is more than one, they won't work right.
  )
 
-;; font
-(set-face-attribute 'default nil
-                    :family "Ricty"
-                    :height 130)
-(set-fontset-font nil
-                  'japanese-jisx0208
-                  (font-spec :family
-                             "Ricty"))
-    ;; (set-face-attribute 'default nil
-    ;;                     :family "Source Code Pro for Powerline"
-    ;;                     :height 120)
-    ;; (set-fontset-font nil
-    ;;                   'japanese-jisx0208
-    ;;                   (font-spec :family
-    ;;                              "Source Code Pro for Powerline"))))
-
-;; mouse
-(unless window-system
-  (xterm-mouse-mode 1)
-  (global-set-key "\C-xm" 'xterm-mouse-mode)
-  (global-set-key [mouse-4] '(lambda ()
-                               (interactive)
-                               (scroll-down 1)))
-  (global-set-key [mouse-5] '(lambda ()
-                               (interactive)
-                               (scroll-up 1))))
-(defun scroll-down-with-lines () (interactive) (scroll-down 3))
-(defun scroll-up-with-lines () (interactive) (scroll-up 3))
-(global-set-key [wheel-up] 'scroll-down-with-lines)
-(global-set-key [wheel-down] 'scroll-up-with-lines)
-(global-set-key [double-wheel-up] 'scroll-down-with-lines)
-(global-set-key [double-wheel-down] 'scroll-up-with-lines)
-(global-set-key [triple-wheel-up] 'scroll-down-with-lines)
-(global-set-key [triple-wheel-down] 'scroll-up-with-lines)
+;; ;; font
+;; (when (display-graphic-p)
+;;     (progn
+;;       (set-face-attribute 'default nil
+;;                     :family "Ricty"
+;;                     :height 130)
+;;       (set-fontset-font nil
+;;                         'japanese-jisx0208
+;;                         (font-spec :family
+;;                                    "Ricty")))
+;;     ;; (set-face-attribute 'default nil
+;;     ;;                     :family "Source Code Pro for Powerline"
+;;     ;;                     :height 120)
+;;     ;; (set-fontset-font nil
+;;     ;;                   'japanese-jisx0208
+;;     ;;                   (font-spec :family
+;;     ;;                              "Source Code Pro for Powerline"))))
 
 ;; gulp lint
 (defun gulp-lint ()
@@ -276,7 +219,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 (require 'company-statistics)
 (company-statistics-mode)
-(setq company-transformers '(company-sort-by-statistics company-sort-by-backend-importance))
+;; (setq company-transformers '(company-sort-by-statistics company-sort-by-backend-importance))
+(setq company-transformers '(company-sort-by-backend-importance))
 
 (global-company-mode +1)
 
@@ -353,7 +297,8 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;;------------------------------------------------------------------------------
 ;; git-gutter-fringe+
 ;;------------------------------------------------------------------------------
-(require 'git-gutter-fringe+)
+(when window-system
+  (require 'git-gutter-fringe+))
 
 ;;------------------------------------------------------------------------------
 ;; go-mode
@@ -361,11 +306,14 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (require 'go-mode)
 (require 'company-go)
 (require 'go-eldoc)
-(setenv "GOPATH" (concat (getenv "HOME") "/projects/jtb-agent-account-system/server" ":"
-                         (getenv "HOME") "/go"))
-(add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
-(add-to-list 'exec-path (expand-file-name "/usr/local/go/bin"))
+(setenv "GOPATH" "/Users/syanuma/go")
+;; (add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
+;; (add-to-list 'exec-path (expand-file-name "/usr/local/go/bin"))
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+
+;; golint
+(add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/golang/lint/misc/emacs"))
+(require 'golint)
 
 (defun file-name-sans-extension-underbar (filename)
   (save-match-data
@@ -411,11 +359,13 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
   (local-set-key (kbd "M-,") 'pop-tag-mark)
   (local-set-key (kbd "C-c C-c") 'go-open-testfile)
   (local-set-key (kbd "C-c C-l") 'go-direx-switch-to-buffer)
+  (local-set-key (kbd "M-o") 'company-go)
   (go-eldoc-setup)
   (setq gofmt-command "goimports")
   (smart-newline-mode 1)
   (set (make-local-variable 'company-backends)
-       '((company-go company-dabbrev-code company-yasnippet))))
+       ;; '((company-go company-dabbrev-code company-yasnippet))))
+       '((company-dabbrev-code company-yasnippet))))
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
@@ -850,3 +800,7 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 
 (provide 'init)
 ;;; init.el ends here
+
+;; PATHの引き継ぎ
+(exec-path-from-shell-initialize)
+(put 'upcase-region 'disabled nil)
