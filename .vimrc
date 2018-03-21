@@ -72,7 +72,9 @@ Plug 'tpope/vim-surround'
 " Plug 'Shougo/neosnippet-snippets'
 Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 Plug 'Lokaltog/vim-easymotion'
+Plug 'scrooloose/syntastic' "シンタックスチェック
 
 " colorscheme
 Plug 'nanotech/jellybeans.vim'
