@@ -27,6 +27,7 @@
 [core]
     whitespace = cr-at-eol
     pager = less -x4
+    editor = vim
 [diff]
 	compactionHeuristic = true
 [rebase]
