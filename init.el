@@ -61,6 +61,9 @@
                        t
                      -1))
 
+;; font size
+(set-face-attribute 'default nil :height 110)
+
 ;; 行番号フォーマット
 (defvar linum-format
       (if (display-graphic-p)
@@ -98,19 +101,6 @@
 ;; ビープ音を消す
 (setq ring-bell-function 'ignore)
 
-;; ;; grep-edit
-;; (require 'grep-edit)
-
-;; ;; POファイルに関する設定
-;; (load "start-po" t)
-;; (defvar po-auto-update-file-header nil)      ; PO-Revision-Dateが無いためヘッダーは更新しない
-
-;; emacsclient
-;; シェルから現在のEmacsにアクセスする
-;; (server-start)
-;; (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
-;; (setq server-socket-dir (format "/private/tmp/emacs%d" (user-uid)))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -130,24 +120,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-;; ;; font
-;; (when (display-graphic-p)
-;;     (progn
-;;       (set-face-attribute 'default nil
-;;                     :family "Ricty"
-;;                     :height 130)
-;;       (set-fontset-font nil
-;;                         'japanese-jisx0208
-;;                         (font-spec :family
-;;                                    "Ricty")))
-;;     ;; (set-face-attribute 'default nil
-;;     ;;                     :family "Source Code Pro for Powerline"
-;;     ;;                     :height 120)
-;;     ;; (set-fontset-font nil
-;;     ;;                   'japanese-jisx0208
-;;     ;;                   (font-spec :family
-;;     ;;                              "Source Code Pro for Powerline"))))
 
 ;; gulp lint
 (defun gulp-lint ()
@@ -219,8 +191,8 @@
 
 (require 'company-statistics)
 (company-statistics-mode)
-;; (setq company-transformers '(company-sort-by-statistics company-sort-by-backend-importance))
-(setq company-transformers '(company-sort-by-backend-importance))
+(setq company-transformers '(company-sort-by-statistics company-sort-by-backend-importance))
+;; (setq company-transformers '(company-sort-by-backend-importance))
 
 (global-company-mode +1)
 
@@ -307,8 +279,6 @@
 (require 'company-go)
 (require 'go-eldoc)
 (setenv "GOPATH" "/Users/syanuma/go")
-;; (add-to-list 'exec-path (expand-file-name "/usr/local/bin"))
-;; (add-to-list 'exec-path (expand-file-name "/usr/local/go/bin"))
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 ;; golint
@@ -470,18 +440,19 @@
 ;;------------------------------------------------------------------------------
 ;; migemo
 ;;------------------------------------------------------------------------------
-(require 'migemo)
-(setq migemo-command "cmigemo")
-(setq migemo-options '("-q" "--emacs"))
+;; 調子良くないから外した
+;; (require 'migemo)
+;; (setq migemo-command "cmigemo")
+;; (setq migemo-options '("-q" "--emacs"))
 
-(setq migemo-command "/usr/local/bin/cmigemo")
-(setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
+;; (setq migemo-command "/usr/local/bin/cmigemo")
+;; (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
 
-(setq migemo-user-dictionary nil)
-(setq migemo-regex-dictionary nil)
-(setq migemo-coding-system 'utf-8-unix)
-(load-library "migemo")
-(migemo-init)
+;; (setq migemo-user-dictionary nil)
+;; (setq migemo-regex-dictionary nil)
+;; (setq migemo-coding-system 'utf-8-unix)
+;; (load-library "migemo")
+;; (migemo-init)
 
 
 ;;------------------------------------------------------------------------------
@@ -737,21 +708,20 @@
 ;;------------------------------------------------------------------------------
 (define-key global-map (kbd "C-h") 'delete-backward-char)
 (define-key global-map (kbd "M-?") 'help-for-help)
-(define-key global-map (kbd "C-o") 'ace-jump-mode)
+(define-key global-map (kbd "C-j") 'ace-jump-mode)
 (define-key global-map (kbd "M-C-g") 'grep)
 (define-key global-map (kbd "C-x l") 'goto-line)
 (define-key global-map (kbd "C-x C-l") 'toggle-truncate-lines)
 (define-key global-map (kbd "C-i") 'indent-for-tab-command) ;yasnippetをよぶと上書きされるため
 (define-key global-map (kbd "M-q") 'keyboard-quit)
-(define-key global-map (kbd "C-j") 'indent-new-comment-line)
+;; (define-key global-map (kbd "C-j") 'indent-new-comment-line)
 (define-key global-map (kbd "C-m") 'newline-and-indent)
+(define-key global-map (kbd "C-M-m") 'indent-new-comment-line)
 (define-key global-map (kbd "M-;") 'comment-dwim-2)
 (define-key global-map (kbd "C-c z") 'emmet-expand-yas)
 
 ;; magit
-(if window-system
-    (define-key global-map (kbd "C-x m") 'magit-status)
-  (define-key global-map (kbd "M-m") 'magit-status))
+(define-key global-map (kbd "M-m") 'magit-status)
 (define-key global-map (kbd "C-c C-b") 'magit-blame)
 
 ;; redo+
@@ -760,8 +730,8 @@
 (define-key global-map (kbd "M-/") 'redo)
 
 ;; expand-region
-(global-set-key (kbd "C-@") 'er/expand-region)
-(global-set-key (kbd "C-M-@") 'er/contract-region)
+(global-set-key (kbd "C-o") 'er/expand-region)
+(global-set-key (kbd "C-M-o") 'er/contract-region)
 
 ;; multiple-cursors
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
@@ -781,8 +751,9 @@
 ;;------------------------------------------------------------------------------
 ;; color-theme
 ;;------------------------------------------------------------------------------
-;; (load-theme 'monokai t)
-(load-theme 'deeper-blue t)
+(if window-system
+    (load-theme 'deeper-blue t)
+  (load-theme ' monokai t))
 ;; (load-theme 'wonbat t)
 ;; (load-theme 'misterioso t)
 

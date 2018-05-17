@@ -26,7 +26,8 @@ alias gs="git status"
 alias t="tig"
 alias ta="tig --all"
 
-source ~/.git-completion.bash
+# git commandの補完
+source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
 
 # pyenv
 export PYENV_ROOT=$HOME/.pyenv
@@ -39,7 +40,7 @@ export PATH=$GOPATH/bin:$PATH
 export PATH=~/go_appengine:$PATH # コレなんだっけ？ ←これないとgbコマンドがまともに動かない
 
 # JTB環境設定
-export PATH=~/projects/jtb-agent-account-system/server:$PATH
+export PATH=~/projects/jtb-agent-account-system/server/bin:$PATH
 
 # EPARK環境設定
 # export PATH=~/procjects/epark/serverapp:$PATH
