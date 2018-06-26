@@ -71,6 +71,8 @@ Plug 'tpope/vim-surround'
 " Plug 'Shougo/neosnippet'
 " Plug 'Shougo/neosnippet-snippets'
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'Lokaltog/vim-easymotion'
@@ -100,6 +102,9 @@ colorscheme jellybeans
 
 " utilsnipets
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mycoolsnippets"]
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " " neosnippet
 " imap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -115,8 +120,8 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "mycoolsnippets"]
 " let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
 " easymotion
-map <Leader>o <Plug>(easymotion-bd-f)
-nmap <Leader>o <Plug>(easymotion-overwin-f)
+map <Leader>j <Plug>(easymotion-bd-f)
+nmap <Leader>j <Plug>(easymotion-overwin-f)
 nmap s <Plug>(easymotion-overwin-f2)
 map <Leader>L <Plug>(easymotion-bd-jk)
 nmap <Leader>L <Plug>(easymotion-overwin-line)
@@ -124,6 +129,7 @@ map <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " vim-go
+let g:go_fmt_command = "goimports"
 let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment']
 let g:go_highlight_array_whitespace_error=1
 let g:go_highlight_extra_types=1
