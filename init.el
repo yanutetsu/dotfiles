@@ -75,7 +75,8 @@
 (defvar show-paren-delay 0)
 
 ;; 行末の空白を強調表示
-(setq-default show-trailing-whitespace t)
+;; Golangを書いているぶんには必要ないかもしれない
+(setq-default show-trailing-whitespace nil)
 (set-face-background 'trailing-whitespace "#b14770")
 
 (setq comment-style 'multi-line)
@@ -109,10 +110,11 @@
  '(custom-safe-themes
    (quote
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
+ '(go-add-tags-style (quote lower-camel-case))
  '(magit-diff-options nil)
  '(package-selected-packages
    (quote
-    (magit go-guru exec-path-from-shell flycheck-gometalinter twittering-mode markdown-toc go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame markdown-mode lorem-ipsum less-css-mode js2-mode ivy-hydra google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
+    (go-tag elfeed go-add-tags magit go-guru exec-path-from-shell flycheck-gometalinter twittering-mode markdown-toc go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame markdown-mode lorem-ipsum less-css-mode js2-mode ivy-hydra google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -207,6 +209,13 @@
 ;;------------------------------------------------------------------------------
 (require 'emmet-mode)
 
+
+;;------------------------------------------------------------------------------
+;; elfeed
+;;------------------------------------------------------------------------------
+(setq elfeed-feeds
+      '("http://cloudplatform.googleblog.com/atom.xml"))
+
 ;;------------------------------------------------------------------------------
 ;; expand-region
 ;;------------------------------------------------------------------------------
@@ -280,6 +289,8 @@
 (require 'go-eldoc)
 (setenv "GOPATH" "/Users/syanuma/go")
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+
+;; go-add-tags
 
 ;; golint
 (add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/golang/lint/misc/emacs"))
