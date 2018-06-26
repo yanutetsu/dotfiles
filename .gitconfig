@@ -32,3 +32,5 @@
 	compactionHeuristic = true
 [rebase]
 	autosquash = true
+[pager]
+	branch = cat
