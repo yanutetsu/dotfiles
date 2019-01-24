@@ -102,6 +102,12 @@
 ;; ビープ音を消す
 (setq ring-bell-function 'ignore)
 
+;; ファイル名補完で大小文字を区別しない
+(setq read-file-name-completion-ignore-case t)
+
+;; バッファ名補完で大小文字を区別しない
+(setq read-buffer-completion-ignore-case t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -183,7 +189,7 @@
 (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
 (define-key company-active-map (kbd "M-d") 'company-show-doc-buffer)
 (setq company-idle-delay .3)
-(setq company-minimum-prefix-length 2)
+(setq company-minimum-prefix-length 1)
 (setq company-selection-wrap-around t)
 (setq company-echo-delay 0)
 (setq company-begin-commands '(self-insert-command))
@@ -369,6 +375,11 @@
 (global-set-key "\C-ct" 'google-translate-smooth-translate)
 (setq google-translate-translation-directions-alist
       '(("en" . "ja") ("ja" . "en")))
+
+;; Fix error of "Failed to search TKK"
+(defun google-translate--get-b-d1 ()
+  ;; TKK='427110.1469889687'
+  (list 427110 1469889687))
 
 ;;------------------------------------------------------------------------------
 ;; ivy
