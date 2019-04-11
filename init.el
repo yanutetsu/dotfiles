@@ -7,10 +7,23 @@
 
 ;;; Code:
 (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (when no-ssl
+    (warn "\
+Your version of Emacs does not support SSL connections,
+which is unsafe because it allows man-in-the-middle attacks.
+There are two things you can do about this warning:
+1. Install an Emacs version that does support SSL and be safe.
+2. Remove this warning from your init file so you won't see it again."))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
-;; (package-refresh-contents)
 
 ;; ステータスバー？に時間を表示
 ;; (display-time)
@@ -120,7 +133,7 @@
  '(magit-diff-options nil)
  '(package-selected-packages
    (quote
-    (go-tag elfeed go-add-tags magit go-guru exec-path-from-shell flycheck-gometalinter twittering-mode markdown-toc go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode redo+ recentf-ext rainbow-delimiters npm-mode nginx-mode ng2-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame markdown-mode lorem-ipsum less-css-mode js2-mode ivy-hydra google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp company-go comment-dwim-2 color-theme anzu)))
+    (company-go ng2-mode magit go-tag elfeed go-add-tags go-guru exec-path-from-shell flycheck-gometalinter twittering-mode markdown-toc go-errcheck go-rename company flycheck tide ivy ag emmet-mode yasnippet ace-jump-mode use-package yaml-mode web-mode vimrc-mode undo-tree tss smooth-scroll smex smartparens smart-newline smart-mode-line-powerline-theme scss-mode rustfmt rust-mode recentf-ext rainbow-delimiters npm-mode nginx-mode neotree multiple-cursors monokai-theme mode-icons mo-git-blame markdown-mode lorem-ipsum less-css-mode js2-mode ivy-hydra google-translate go-snippets go-scratch go-eldoc go-direx go-complete go-autocomplete gitignore-mode git-gutter-fringe+ fuzzy flymake-go expand-region editorconfig dockerfile-mode counsel company-web company-statistics company-quickhelp comment-dwim-2 color-theme anzu)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -176,7 +189,7 @@
 ;;------------------------------------------------------------------------------
 ;; anzu
 ;;------------------------------------------------------------------------------
-(global-anzu-mode +1)
+;; (global-anzu-mode +1)
 
 ;;------------------------------------------------------------------------------
 ;; company
@@ -186,11 +199,14 @@
 (define-key company-active-map (kbd "M-p") nil)
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-active-map (kbd "C-s") 'company-filter-candidates)
 (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
 (define-key company-active-map (kbd "M-d") 'company-show-doc-buffer)
-(setq company-idle-delay .3)
+(setq company-transformers '(company-sort-by-backend-importance))
+(setq company-idle-delay 0)
 (setq company-minimum-prefix-length 1)
 (setq company-selection-wrap-around t)
+(setq completion-ignore-case t)
 (setq company-echo-delay 0)
 (setq company-begin-commands '(self-insert-command))
 (defvar company-dabbrev-downcase nil)
@@ -293,8 +309,10 @@
 (require 'go-mode)
 (require 'company-go)
 (require 'go-eldoc)
-(setenv "GOPATH" "/Users/syanuma/go")
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+;; (setenv "GOPATH" "/Users/syanuma/go")
+;; (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+;; (add-to-list 'exec-path (expand-file-name "/usr/local/bin/go"))
+;; (add-to-list 'exec-path (expand-file-name "/Users/syanuma/go/bin"))
 
 ;; go-add-tags
 
@@ -365,7 +383,7 @@
 ;;------------------------------------------------------------------------------
 ;; go-direx
 ;;------------------------------------------------------------------------------
-;; (require 'go-direx)
+(require 'go-direx)
 
 ;;------------------------------------------------------------------------------
 ;; google-translate
@@ -433,11 +451,11 @@
 ;;------------------------------------------------------------------------------
 ;; json-mode
 ;;------------------------------------------------------------------------------
-(require 'json-mode)
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-(add-hook 'json-mode-hook
-          '(lambda ()
-             (setq js-indent-level 2)))
+;; (require 'json-mode)
+;; (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+;; (add-hook 'json-mode-hook
+;;           '(lambda ()
+;;              (setq js-indent-level 2)))
 
 
 ;;------------------------------------------------------------------------------
@@ -585,6 +603,7 @@
 ;;------------------------------------------------------------------------------
 ;; reqdo+.el
 ;;------------------------------------------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/redo+")
 (require 'redo+)
 (setq undo-no-redo t)
 (setq undo-limit 60000)
@@ -781,7 +800,7 @@
 
 ;; smart-mode-line
 (defvar sml/theme 'dark)
-(sml/setup)
+;; (sml/setup)
 
 ;; カーソルの色
 (set-cursor-color "green")
@@ -795,5 +814,5 @@
 ;;; init.el ends here
 
 ;; PATHの引き継ぎ
-(exec-path-from-shell-initialize)
+;; (exec-path-from-shell-initialize)
 (put 'upcase-region 'disabled nil)
