@@ -99,6 +99,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+PATH=$PATH:~/google-cloud-sdk/bin
+
 alias ls="ls -FG"
 
 setopt no_beep
@@ -113,7 +115,8 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 bindkey -d
 bindkey -e
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# zstyle ':completion:*' menu select
 
 # prompt memo
 # PROMPT='%n@%F{blue}%c%f %F{yellow}$(git_prompt_info)%f

@@ -6,7 +6,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ace-jump-modecompany counsel ivymagit markdown-mode markdown-preview-mode markdownfmt monokai-theme smart-newline smartparens swiper undo-tree))))
+    (ivy magit company ace-jump-mode counsel markdown-mode markdown-preview-mode markdownfmt monokai-theme smart-newline smartparens swiper undo-tree))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
