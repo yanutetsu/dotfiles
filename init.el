@@ -1,4 +1,11 @@
 ;;; init.el --- my settings
+
+;;; Commentary:
+
+;;; Code:
+(setq delete-auto-save-files t)
+(setq make-backup-files nil)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -6,7 +13,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ivy magit company ace-jump-mode counsel markdown-mode markdown-preview-mode markdownfmt monokai-theme smart-newline smartparens swiper undo-tree))))
+    (flycheck flycheck-pycheckers company-lsp lsp-mode ivy magit company ace-jump-mode counsel markdown-mode markdown-preview-mode markdownfmt monokai-theme smart-newline smartparens swiper undo-tree))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -22,7 +29,7 @@
 (package-initialize)
 
 (ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
+(defvar ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 ;; enable this if you want `swiper' to use it
 ;; (setq search-default-mode #'char-fold-to-regexp)
@@ -34,9 +41,9 @@
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "C-x f") 'counsel-recentf)
 (global-set-key (kbd "C-x d") 'counsel-dired)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+(global-set-key (kbd "C-c f") 'counsel-describe-function)
+(global-set-key (kbd "C-c v") 'counsel-describe-variable)
+(global-set-key (kbd "C-c o") 'counsel-describe-symbol)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
@@ -60,5 +67,17 @@
 
 (global-set-key (kbd "C-h") 'delete-backward-char)
 
+(require 'company-lsp)
+(push 'company-lsp company-backends)
+
+(define-key company-active-map (kbd "M-n") nil)
+(define-key company-active-map (kbd "M-p") nil)
+(define-key company-active-map (kbd "C-n") 'company-select-next)
+(define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-active-map (kbd "C-s") 'company-filter-candidates)
+
+(global-flycheck-mode)
+
 (load-theme 'monokai t)
 (menu-bar-mode -1)
+;;; init.el ends here
