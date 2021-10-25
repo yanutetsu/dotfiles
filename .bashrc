@@ -26,25 +26,6 @@ alias gs="git status"
 alias t="tig"
 alias ta="tig --all"
 
-# pyenv
-export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/bin:$PATH
-eval "$(pyenv init -)"
-
-# Go
-export GOPATH=/Users/syanuma/go
-export PATH=$GOPATH/bin:$PATH
-export PATH=~/go_appengine:$PATH # コレなんだっけ？ ←これないとgbコマンドがまともに動かない
-
-export PATH=~/google-cloud-sdk/bin:$PATH
-
-# mvn
-export PATH=/usr/local/apache-maven-3.5.4/bin:$PATH
-export JAVA_HOME=`/usr/libexec/java_home`
-export PATH=$JAVA_HOME:$PATH
-
-export PATH=~/appengine-java-sdk-1.9.40/bin:$PATH
-
 # プロンプトを可愛くする
 PS1="[\u@\w]\\n(*'-') < "
 
